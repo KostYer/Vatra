@@ -72,5 +72,12 @@ namespace Player.AnimationRelated
         {
             _animator.SetBool(_pushID,value);
         }
+
+
+        [ContextMenu("pushing anim test")]
+        private void PushAnimPlayTest()
+        {
+            _animator.SetBool(_pushID,true);
+        }
     }
 }
