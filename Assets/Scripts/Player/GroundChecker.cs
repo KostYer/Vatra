@@ -36,6 +36,7 @@ namespace Player
 
         [SerializeField] private Transform _model;
         
+    
         public float GetCurrentlyFacing()
         {
             var dot = Vector3.Dot(_model.forward, Vector3.right);
@@ -47,7 +48,7 @@ namespace Player
             {
                 dot = -1;
             }
-
+ 
             return dot;
         }
     }

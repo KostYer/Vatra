@@ -6,29 +6,32 @@ namespace Player
 {
     public class LedgeDetector : MonoBehaviour
     {
-         [Header("Raycasts")]
-        [SerializeField] private LayerMask _layer;
+        [Header("Raycasts")] [SerializeField] private LayerMask _layer;
         [SerializeField] private Transform _raycastAnchor;
-        [SerializeField] private Vector2 _rayVerticalOffset;
         [SerializeField] private float _rayLen;
+        [Tooltip("offset for edge detection")] private Vector2 _detectionOffset = new Vector2(-1.5f, -0.2f);
         [Space] [SerializeField] private CharacterController _characterController;
 
-        [SerializeField] private Animator _animator;
-       // [SerializeField] private AnimationHandler _animationHandler;
-     //   [SerializeField] private GroundChecker _groundChecker;
-
-     
-
+        private bool _movedX = false;
         private Vector3 _platformEdge;
 
-  //      [SerializeField] private AnimationEvents _animationEvents;
-        [SerializeField] private Transform _hips;
-        [SerializeField] private Vector2 _endGrabOffset;
+
         [SerializeField] private GroundChecker _groundChecker;
 
         [SerializeField] private PlayerController _playerController;
 
         [SerializeField] private AnimationEventsSO _animationEvents;
+        [SerializeField] private PlayerAnimationHander _animationHander;
+
+        [Tooltip("offset that occures snaps player to edge raycast hit point before any movement")]
+        private Vector2 _edgeSnatOffset = new Vector2(-0.12f, -1.65f);
+
+        [Tooltip("offset that occures during movement along the edge")]
+        private Vector2 _edgeMovement = new Vector2(0.55f, 2.9f);
+
+        private bool _isEdgeResult = false;
+        private Vector3 _resultEdge = Vector3.zero;
+
         private void Start()
         {
             _animationEvents.OnLedgePullStarted += OnLedgePullStarted;
@@ -36,11 +39,9 @@ namespace Player
 
         private void OnLedgePullStarted(float clipLen)
         {
-            var yRise = 2.65f;
+            var yRise = _edgeMovement.y;
 
             StartCoroutine(MoveUp(yRise, clipLen));
-
-
         }
 
 
@@ -49,28 +50,28 @@ namespace Player
             var startPos = transform.position;
             var desiredPos = startPos + new Vector3(0f, yOffset, 0f);
             float time = 0;
-            while (time < duration)
+
+            var horOffset = _edgeMovement.x;
+            var currentlyFacing = _groundChecker.GetCurrentlyFacing();
+            while (time <= duration)
             {
-                float value = time / duration;
-                time += Time.deltaTime;
-                transform.position = Vector3.Lerp(startPos, desiredPos, value);
                 yield return null;
+                time += Time.deltaTime;
+                float value = time / duration;
+                transform.position = Vector3.Lerp(startPos, desiredPos, value);
             }
 
-            var horOffset = 0.63f;
-
-            var currentlyFacing = _groundChecker.GetCurrentlyFacing();
             transform.position += new Vector3(horOffset * currentlyFacing, 0f, 0f);
-             _playerController.Enable(true);
+            _playerController.Enable(true);
         }
-       
+
 
         private void Update()
         {
-
             bool isGrounded = _groundChecker.IsGraunded;
             if (isGrounded)
             {
+                _movedX = false;
                 return;
             }
 
@@ -80,36 +81,51 @@ namespace Player
 
         private void TryDetectLedge()
         {
-          
-          
-            if (Physics.Raycast(_raycastAnchor.position  ,
+            if (Physics.Raycast(_raycastAnchor.position,
                     Vector3.down, out var hit, _rayLen, _layer))
             {
-                /*_rb.useGravity = false;
-                _rb.velocity = Vector3.zero;*/
-       //         _animationHandler.HungOnEdge();
-       _playerController.Enable(false);
-        _animator.SetTrigger("ClimbTrig");
-        
-      
+                _resultEdge = GetEdge(hit.point);
+                _playerController.Enable(false);
+
+                if (!_movedX)
+                {
+                    var faceDir = _groundChecker.GetCurrentlyFacing();
+                    var offset = new Vector3(_edgeSnatOffset.x * faceDir, _edgeSnatOffset.y, 0f);
+                    transform.position = _resultEdge + offset;
+                    _animationHander.TriggerClimbing();
+                    _movedX = true;
+                }
             }
-            else
-            {
-                _animator.ResetTrigger("ClimbTrig");
-
-            }
-
-
         }
 
-        
+
+        private Vector3 GetEdge(Vector3 verticalHit)
+        {
+            Vector3 result = Vector3.zero;
+            var faceDir = _groundChecker.GetCurrentlyFacing();
+            float rayOffsetx = _detectionOffset.x * faceDir;
+            float rayOffsety = _detectionOffset.y;
+            Vector3 origin = new Vector3(verticalHit.x + rayOffsetx, verticalHit.y + rayOffsety, verticalHit.z);
+            if (Physics.Raycast(origin, Vector3.right * faceDir, out var hit, 5, _layer))
+            {
+                result = hit.point;
+                _isEdgeResult = true;
+            }
+
+            return result;
+        }
 
         private void OnDrawGizmos()
         {
-            
-           Gizmos.color = Color.blue;
-           Gizmos.DrawSphere(_raycastAnchor.position  , 0.2f);
-           Gizmos.DrawRay(_raycastAnchor.position  , Vector3.down * _rayLen);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(_raycastAnchor.position, 0.2f);
+            Gizmos.DrawRay(_raycastAnchor.position, Vector3.down * _rayLen);
+
+            if (_isEdgeResult)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(_resultEdge, 0.2f);
+            }
         }
     }
 }

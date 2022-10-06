@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: b3cf05906cbb2874a803da9c2144a7af
+guid: b8490d22efef4de40ae736fb96c4494a
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: -203655887218126122
-    second: mixamo.com
+      74: -2817517482862745934
+    second: Run_N_Land
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -20,10 +20,7 @@ ModelImporter:
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'mixamorig:LeftLeg'
-      : position error = 790.463196 mm\n\t'mixamorig:LeftFoot' : position error =
-      819.431702 mm\n\t'mixamorig:LeftToeBase' : position error = 283.339050 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -97,7 +94,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
