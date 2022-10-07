@@ -18,10 +18,12 @@ namespace Player
         {
             int _groundLayer = LayerMask.NameToLayer("ground");
             int _platformLayer = LayerMask.NameToLayer("platform");
+            int _pushable = LayerMask.NameToLayer("pusshable");
             
             int _ground = 1<< _groundLayer;
             int _platform = 1<< _platformLayer;
-            _finalLayer  = _ground | _platform;
+            int pushable = 1 << _pushable;
+            _finalLayer  = _ground | _platform | pushable;
         }
 
 
