@@ -3695,7 +3695,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b72e11a0a0dafb642b70ecb401299f64,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b72e11a0a0dafb642b70ecb401299f64,
         type: 3}
@@ -6066,7 +6066,6 @@ MonoBehaviour:
     m_Bits: 512
   _raycastAnchor: {fileID: 1779730455}
   _rayLen: 0.4
-  _characterController: {fileID: 946160899}
   _groundChecker: {fileID: 946160905}
   _playerController: {fileID: 946160900}
   _animationEvents: {fileID: 11400000, guid: b3807e67e7147d949b90d311663b59d3, type: 2}
@@ -6895,7 +6894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1070417856
 Transform:
   m_ObjectHideFlags: 0
@@ -11673,7 +11672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1748566696
 Transform:
   m_ObjectHideFlags: 0
@@ -11682,7 +11681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748566695}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5661001, y: 1.9633899, z: -0.03371072}
+  m_LocalPosition: {x: -0, y: 0.516, z: 0.214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14521,7 +14520,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8157216781628173261}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.4400005, y: 1.784, z: 0}
+  m_LocalPosition: {x: 2.4400005, y: 1.843, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14547,7 +14546,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.05, z: 0}
 --- !u!1 &8157216781628173261
 GameObject:
   m_ObjectHideFlags: 0
@@ -14586,7 +14585,7 @@ CapsuleCollider:
   m_Radius: 0.25
   m_Height: 2.48
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.05, z: 0}
 --- !u!114 &8157216781628173263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14658,7 +14657,6 @@ MonoBehaviour:
     m_Bits: 512
   _raycastAnchor: {fileID: 1748566696}
   _rayLen: 0.4
-  _characterController: {fileID: 8157216781628173260}
   _groundChecker: {fileID: 8157216781628173267}
   _playerController: {fileID: 8157216781628173263}
   _animationEvents: {fileID: 11400000, guid: b3807e67e7147d949b90d311663b59d3, type: 2}
@@ -14687,7 +14685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8157216782658944714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.088, z: 0}
+  m_LocalPosition: {x: 0, y: 0.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

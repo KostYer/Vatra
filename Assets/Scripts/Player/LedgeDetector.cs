@@ -10,7 +10,7 @@ namespace Player
         [SerializeField] private Transform _raycastAnchor;
         [SerializeField] private float _rayLen;
         [Tooltip("offset for edge detection")] private Vector2 _detectionOffset = new Vector2(-1.5f, -0.2f);
-        [Space] [SerializeField] private CharacterController _characterController;
+        
 
         private bool _movedX = false;
         private Vector3 _platformEdge;
@@ -27,7 +27,7 @@ namespace Player
         private Vector2 _edgeSnatOffset = new Vector2(-0.12f, -1.65f);
 
         [Tooltip("offset that occures during movement along the edge")]
-        private Vector2 _edgeMovement = new Vector2(0.55f, 2.9f);
+        private Vector2 _edgeMovement = new Vector2(0.55f, 1.6f);
 
         private bool _isEdgeResult = false;
         private Vector3 _resultEdge = Vector3.zero;
