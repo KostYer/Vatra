@@ -2,6 +2,7 @@
 using System.Collections;
 using Player.AnimationRelated;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -10,6 +11,10 @@ namespace Player
         [SerializeField] private PushablesDetector _pushDetector;
         [SerializeField] private PlayerAnimationHander _animationHander;
         [SerializeField] private CharacterController _characterController;
+        [SerializeField] private Button _bushButton;
+
+       
+        
         private Rigidbody _pushedObjectRb;
         private Vector3 _pushingDirection = Vector3.zero;
         private bool _isPushing = false;
@@ -19,23 +24,36 @@ namespace Player
         {
             _pushDetector.OnPushableDetected += OnPushDetected;
             _pushDetector.OnDetectionExit += OnDetectionExit;
+            ShowUiButton(false);
+            _bushButton.onClick.AddListener(OnPushStart);
         }
 
+
+        private void ShowUiButton(bool show)
+        {
+            _bushButton.gameObject.SetActive(show);
+        }
+
+        private Rigidbody _rb;
         private void OnPushDetected(Rigidbody rb)
         {
+            _rb = rb;
+            ShowUiButton(true);
+
+        }
+
+        private void OnPushStart()
+        {
             Debug.Log("obj pushing");
-            rb.GetComponent<PushableObject>().OnFall += OnDetectionExit;
-            
+            _rb.GetComponent<PushableObject>().OnFall += OnDetectionExit;
             _animationHander.PlayPushing(true);
             _isPushing = true;
             
             
-            var dir = (rb.position - transform.position).normalized;
-            _pushedObjectRb = rb;
+            var dir = (_rb.position - transform.position).normalized;
+            _pushedObjectRb = _rb;
             _pushingDirection = dir;
             Pushing();
-
-
         }
 
         private void OnDetectionExit()
@@ -81,6 +99,12 @@ namespace Player
                // _pushedObjectRb.AddForce(_pushingDirection * _pushForce, ForceMode.Acceleration);
                yield return new WaitForFixedUpdate();
             }
+        }
+
+
+        private void FixedUpdate()
+        {
+            
         }
     }
 }

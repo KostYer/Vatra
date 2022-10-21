@@ -11,27 +11,16 @@ namespace Player
 
         [SerializeField] private CharacterController _characterController;
         
-        private int _finalLayer;
+        [SerializeField]  private LayerMask _walkableMask;
         private float _detectionRadius = 0.15f;
         
-        private void Start()
-        {
-            int _groundLayer = LayerMask.NameToLayer("ground");
-            int _platformLayer = LayerMask.NameToLayer("platform");
-            int _pushable = LayerMask.NameToLayer("pusshable");
-            
-            int _ground = 1<< _groundLayer;
-            int _platform = 1<< _platformLayer;
-            int pushable = 1 << _pushable;
-            _finalLayer  = _ground | _platform | pushable;
-        }
+      
 
 
         private void Update()
         {
-            var isGrounded = Physics.CheckSphere(groundCheck.position, _detectionRadius, _finalLayer);
+            var isGrounded = Physics.CheckSphere(groundCheck.position, _detectionRadius, _walkableMask);
             var yVelocity = _characterController.velocity.y;
-//            Debug.Log("yVelocity" + yVelocity);
             IsGraunded = isGrounded;// && yVelocity > 0.04f;
         }
 
