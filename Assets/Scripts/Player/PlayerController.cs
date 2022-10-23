@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using Player;
 using Player.AnimationRelated;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [FormerlySerializedAs("controller")] public CharacterController _controller;
-    private Vector3 direction;
+    public Vector3 MovementDir;
     public float speed = 8;
 
     [Space(10)] [Tooltip("The height the player can jump")]
@@ -33,11 +33,10 @@ public class PlayerController : MonoBehaviour
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
 
-    [SerializeField] private Camera _mainCamera;
+    
     public float MoveSpeed = 2.0f;
 
-    [Tooltip("Sprint speed of the character in m/s")]
-    public float SprintSpeed = 5.335f;
+ 
 
     [Range(0.0f, 0.3f)] public float RotationSmoothTime = 0.12f;
 
@@ -45,10 +44,13 @@ public class PlayerController : MonoBehaviour
     public float SpeedChangeRate = 10.0f;
 
     private bool _isActive = true;
-
+    [SerializeField] private Transform _model;
     [SerializeField] private PlayerAnimationHander _animationHander;
     [SerializeField] private GroundChecker _groundChecker;
 
+    public bool PreventModelRot = false;
+    [SerializeField]  private bool _canMoveHor = true;
+    public float VelocityX;
     private void Start()
     {
         _jumpTimeoutDelta = JumpTimeout;
@@ -60,8 +62,8 @@ public class PlayerController : MonoBehaviour
         if (!on)
         {
             _isActive = false;
-            direction = Vector3.zero;
-            _controller.Move(direction);
+            MovementDir = Vector3.zero;
+            _controller.Move(MovementDir);
         }
         else
         {
@@ -77,11 +79,18 @@ public class PlayerController : MonoBehaviour
         }
 
         float _hInput = Input.GetAxis("Horizontal");
-        direction.x = _hInput * speed;
+        MovementDir.x = _hInput * speed;
 
 
         JumpAndGravity();
-        Move();
+        VelocityX = 0f;
+        if (_canMoveHor)
+        {
+            VelocityX = _controller.velocity.x ;
+            Move();
+        }
+
+     
 
         bool isGrounded = _groundChecker.IsGraunded;
         _animationHander.SetGrounded(isGrounded);
@@ -115,14 +124,19 @@ public class PlayerController : MonoBehaviour
 
 
         Vector3 inputDirection = new Vector3(hInput, 0.0f, 0f).normalized;
-        if (hInput != 0f)
+        if (hInput != 0f  )
         {
             _targetRotation = Mathf.Atan2(0f, inputDirection.x) * Mathf.Rad2Deg;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
 
 
+            var currentRot =  _model.rotation;
             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+             if (PreventModelRot)
+            {
+                _model.rotation = currentRot;
+            } 
         }
 
 
@@ -135,6 +149,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    
     private void JumpAndGravity()
     {
         bool isGrounded = _groundChecker.IsGraunded;
@@ -156,7 +171,6 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
                 _animationHander.SetJump(true);
             }
 
@@ -189,5 +203,24 @@ public class PlayerController : MonoBehaviour
         {
             _verticalVelocity += Gravity * Time.deltaTime;
         }
+        
+        
+        
+    }
+
+    public Transform GetPlayerModel()
+    {
+        return _model;
+    }
+
+    public void ResetModelRotation()
+    {
+        PreventModelRot = false;
+        _model.right = -transform.forward;
+    }
+
+    public void PreventHorizontalMovement(bool prevent)
+    {
+        _canMoveHor = !prevent;
     }
 }
