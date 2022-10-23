@@ -16,7 +16,7 @@ namespace Player.AnimationRelated
         private int _animIDMotionSpeed;
         private int _climbIDtrigger;
         private int _pushID;
-
+        private int _pullID;
 
         private void Awake()
         {
@@ -31,6 +31,7 @@ namespace Player.AnimationRelated
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
             _climbIDtrigger = Animator.StringToHash("ClimbTrig");
             _pushID = Animator.StringToHash("Pushing");
+            _pullID = Animator.StringToHash("Pulling");
         }
 
         public void SetGrounded(bool grounded)
@@ -71,6 +72,10 @@ namespace Player.AnimationRelated
         public void PlayPushing(bool value)
         {
             _animator.SetBool(_pushID,value);
+        }
+        public void PlayPulling(bool value)
+        {
+            _animator.SetBool(_pullID,value);
         }
 
 

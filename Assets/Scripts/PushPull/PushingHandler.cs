@@ -70,7 +70,7 @@ namespace Player
             _pushable.EnableInteraction(true);
             _pushable.OnFall += OnPushDetectedEnd;
             
-            _animationHander.PlayPushing(true);
+            
             _isPushing = true;
             
             
@@ -95,7 +95,7 @@ namespace Player
         
         private void OnPushingEnd()
         {
-            _animationHander.PlayPushing(false);
+            
             _isPushing = false;
             _pushable.EnableInteraction(false);
             _pushable.OnFall -= OnPushDetectedEnd;
@@ -107,6 +107,8 @@ namespace Player
             _playerController.ResetModelRotation();
               _playerController.PreventHorizontalMovement(false);
             _pushable = null;
+            _animationHander.PlayPulling(false);
+            _animationHander.PlayPushing(false);
         }
 
 
@@ -139,10 +141,22 @@ namespace Player
         {
             while (_isPushing)
             {
+                var dot = GetDotToPushable();
+                if (dot>0)
+                {
+                    _animationHander.PlayPulling(true);
+                    _animationHander.PlayPushing(false);
+                }
+                else if (dot<0)
+                {
+                    _animationHander.PlayPulling(false);
+                    _animationHander.PlayPushing(true);
+                }
+
                 if (_pushable.PushableType == PushableType.Rollable)
                 {
                     _pushable.GetMovementDir(_playerController.VelocityX);
-                    var dot = GetDotToPushable();
+                    
                  
                     if ( dot>= 0)
                     {
