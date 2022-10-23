@@ -17,6 +17,7 @@ namespace Player.AnimationRelated
         private int _climbIDtrigger;
         private int _pushID;
         private int _pullID;
+        private int _pushPullSpeed;
 
         private void Awake()
         {
@@ -32,6 +33,7 @@ namespace Player.AnimationRelated
             _climbIDtrigger = Animator.StringToHash("ClimbTrig");
             _pushID = Animator.StringToHash("Pushing");
             _pullID = Animator.StringToHash("Pulling");
+            _pushPullSpeed = Animator.StringToHash("PushPullSpeed");
         }
 
         public void SetGrounded(bool grounded)
@@ -76,6 +78,25 @@ namespace Player.AnimationRelated
         public void PlayPulling(bool value)
         {
             _animator.SetBool(_pullID,value);
+        }
+
+        public void FreezePushPull(bool freeze)
+        {
+            if (freeze)
+            {
+                _animator.SetFloat(_pushPullSpeed, 0f);
+               // var animName = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+               
+                /*if (animName == "Pushing")
+                {
+                    var animation = GetComponentInChildren<Animation>();
+                    animation[animName].time = 0.3f;
+                }*/
+            }
+            else
+            {
+                _animator.SetFloat(_pushPullSpeed, 1f);
+            }
         }
 
 

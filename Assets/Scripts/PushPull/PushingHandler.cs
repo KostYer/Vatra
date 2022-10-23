@@ -14,9 +14,10 @@ namespace Player
         [SerializeField] private ButtonPushable _UiPushableButton;
 
         [SerializeField] private PlayerController _playerController;
+        [SerializeField] private float _velocityX;   
         
         private Rigidbody _pushedObjectRb;
-        private Vector3 _pushingDirection = Vector3.zero;
+    
         private bool _isPushing = false;
         private Transform _playerModel;
  
@@ -66,7 +67,14 @@ namespace Player
         private void OnPushStart()
         {
             Debug.Log("OnPushStart");
+            
+            
+            
             _pushable = _rb.GetComponent<PushableObject>();
+
+            var distToPushable = Vector3.Distance(_pushDetector.transform.position, _pushable.transform.position);
+            Debug.Log("distToPushable " + distToPushable);
+            
             _pushable.EnableInteraction(true);
             _pushable.OnFall += OnPushDetectedEnd;
             
@@ -76,9 +84,10 @@ namespace Player
             
             var dir = (_rb.position - transform.position).normalized;
             _pushedObjectRb = _rb;
-            _pushingDirection = dir;
+          
             Pushing();
             StartCoroutine(HandleMovementDirectionChange());
+            StartCoroutine(HandleFreezAnimation());
 
         }
  
@@ -109,38 +118,17 @@ namespace Player
             _pushable = null;
             _animationHander.PlayPulling(false);
             _animationHander.PlayPushing(false);
+            _animationHander.FreezePushPull(false);
         }
 
 
-        private void Update()
-        {
-            GetDirectionToPushable();
-        }
-
-        [ContextMenu("GetDirTo Pushable")]
-        private void GetDirectionToPushable()
-        {
-            var dir = Vector3.zero;
-            if (_pushable == null)
-            {
-                dir = Vector3.zero;
-            }
-
-            else
-            {
-                dir = transform.position - _pushable.transform.position;
-            }
-            
-       //     Debug.Log("dirToPushable="+dir.normalized.x);
-            Debug.Log("Dot Dir * Right="+Vector3.Dot(transform.right, dir));
-            
-        }
-// + P -
+      
 
         private IEnumerator HandleMovementDirectionChange()
         {
             while (_isPushing)
             {
+               
                 var dot = GetDotToPushable();
                 if (dot>0)
                 {
@@ -170,6 +158,27 @@ namespace Player
                 yield return null;
             }
             
+        }
+
+
+        private IEnumerator HandleFreezAnimation()
+        {
+            while (_isPushing)
+            {
+             var horVelocity =   _characterController.velocity.x;
+             var freze = false;
+             
+                 if(horVelocity == 0)
+                 {
+                     freze = true;
+                 }
+                 else
+                 {
+                     freze = false;
+                 }
+                 _animationHander.FreezePushPull(freze);
+                 yield return null;
+            }
         }
 
 
