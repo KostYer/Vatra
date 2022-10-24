@@ -895,6 +895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 4776536524101927861}
+  MovementDir: {x: 0, y: 0, z: 0}
   speed: 8
   JumpHeight: 1.2
   Gravity: -15
@@ -903,9 +904,12 @@ MonoBehaviour:
   MoveSpeed: 6
   RotationSmoothTime: 0.012
   SpeedChangeRate: 10
+  _model: {fileID: 3816610080993423489}
   _animationHander: {fileID: 4776536524101927848}
   _groundChecker: {fileID: 4776536524101927850}
-  CanRotate: 1
+  PreventModelRot: 0
+  _canMoveHor: 1
+  VelocityX: 0
 --- !u!143 &4776536524101927861
 CharacterController:
   m_ObjectHideFlags: 0
@@ -994,6 +998,7 @@ MonoBehaviour:
   _characterController: {fileID: 4776536524101927861}
   _UiPushableButton: {fileID: 2767311905393279123}
   _playerController: {fileID: 4776536524101927862}
+  _velocityX: 0
   _pushForce: 10
 --- !u!1001 &3710380984281388906
 PrefabInstance:
