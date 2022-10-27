@@ -12,13 +12,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - player
   - 
   - ground
   - platform
   - pusshable
   - pushDetector
-  - 
+  - deathZone
   - 
   - 
   - 
