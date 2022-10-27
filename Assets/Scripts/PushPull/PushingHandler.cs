@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections;
 using Player.AnimationRelated;
 using UnityEngine;
@@ -165,19 +164,11 @@ namespace Player
         {
             while (_isPushing)
             {
-             var horVelocity =   _characterController.velocity.x;
-             var freze = false;
-             
-                 if(horVelocity == 0)
-                 {
-                     freze = true;
-                 }
-                 else
-                 {
-                     freze = false;
-                 }
-                 _animationHander.FreezePushPull(freze);
-                 yield return null;
+                var horVelocity =   _characterController.velocity.x;
+                bool freze = horVelocity == 0;
+
+                _animationHander.FreezePushPull(freze);
+                yield return null;
             }
         }
 
