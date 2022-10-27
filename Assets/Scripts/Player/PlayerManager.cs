@@ -6,18 +6,35 @@ using UnityEngine.UI;
 
 namespace Player
 {
-    public class PlayerManager : MonoBehaviour
+
+    public interface IRespawnable
+    {
+        void SetSpawnPosition(Vector3 pos);
+    }
+
+    public class PlayerManager : MonoBehaviour, IRespawnable
     {
 
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PlayerAnimationHander _animationHander;
-
+        [SerializeField] private CharacterController _characterController;
+        public Vector3 SpawnPos;
+        
+        
         public void OnPlayerDeath(DeathType deathType)
         {
-      //      _playerController.Enable(false);
-         //   _animationHander.PlayDeath(deathType);
+           gameObject.SetActive(false);
+           transform.position = SpawnPos;
+           gameObject.SetActive(true);
+          
+        
+
         }
 
+        public void SetSpawnPosition(Vector3 pos)
+        {
+            SpawnPos = pos;
+        }
     }
 }
 
