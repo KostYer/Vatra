@@ -18,7 +18,6 @@ namespace Player.Dying
         private void OnTriggerEnter(Collider other)
         {
             other.GetComponent<PlayerManager>().OnPlayerDeath(_deathType);
-            _collider.enabled = false;
             Debug.Log("player fall death zone");
         
         }
