@@ -1,44 +1,23 @@
 ﻿
+using Player.AnimationRelated;
+using Player.Dying;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerManager : MonoBehaviour
+namespace Player
 {
-     
-  
-
-    public static int currentHealth = 100;
-    public Slider healthBar;
-
-    public static bool gameOver;
-    public static bool winLevel;
-
-    public GameObject gameOverPanel;
-
-    public float timer = 0;
-
-    void Start()
+    public class PlayerManager : MonoBehaviour
     {
-       
-        gameOver = winLevel = false;
-    }
 
-    void Update()
-    {
-        //Display the number of coins
-       
+        [SerializeField] private PlayerController _playerController;
+        [SerializeField] private PlayerAnimationHander _animationHander;
 
-        //Update the slider value
-   //     healthBar.value = currentHealth;
-
-        //game over
-        if(currentHealth < 0)
+        public void OnPlayerDeath(DeathType deathType)
         {
-            gameOver = true;
-            gameOverPanel.SetActive(true);
-            currentHealth = 100;
+      //      _playerController.Enable(false);
+         //   _animationHander.PlayDeath(deathType);
         }
 
-        
     }
 }
+
