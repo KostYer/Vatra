@@ -5,9 +5,13 @@ using UnityEngine;
 namespace Prefabs
 {
 
+    public interface IPrefabsProvider
+    {
+        public GameObject GetGamePrefab(PrefabType prefabType);
+    }
 
     [CreateAssetMenu(fileName = "PrefabsProviderSO", menuName = "SO/PrefabsProviderSO")]
-    public class PrefabsProviderSO : ScriptableObject
+    public class PrefabsProviderSO : ScriptableObject, IPrefabsProvider
     {
         [SerializeField] private List<VatraPrefab> _gamePrefabs = new List<VatraPrefab>();
 
