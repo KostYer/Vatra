@@ -903,7 +903,7 @@ MonoBehaviour:
   JumpTimeout: 0.5
   FallTimeout: 0.15
   MoveSpeed: 5
-  RotationSmoothTime: 0.12
+  RotationSmoothTime: 0.062
   SpeedChangeRate: 10
   _model: {fileID: 3816610080993423489}
   _animationHander: {fileID: 4776536524101927848}
@@ -1015,6 +1015,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerController: {fileID: 4776536524101927862}
   _animationHander: {fileID: 4776536524101927848}
+  _characterController: {fileID: 0}
+  SpawnPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &3710380984281388906
 PrefabInstance:
   m_ObjectHideFlags: 0
