@@ -24,11 +24,9 @@ namespace Player
         public void OnPlayerDeath(DeathType deathType)
         {
            gameObject.SetActive(false);
-           transform.position = SpawnPos;
-           gameObject.SetActive(true);
-          
-        
-
+           Time.timeScale = 0f;
+           
+ 
         }
 
         public void SetSpawnPosition(Vector3 pos)
