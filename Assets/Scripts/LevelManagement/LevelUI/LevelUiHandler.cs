@@ -9,6 +9,8 @@ namespace LevelUI
     {
         [SerializeField] private RectTransform _restartPanel;
         [SerializeField] private Button _restartButton;
+        public event Action OnRestartRequested;
+        
         private ISignalBus _signalBus;
 
         private void Start()
@@ -21,7 +23,8 @@ namespace LevelUI
 
         private void OnRestartClicked()
         {
-            
+            OnRestartRequested?.Invoke();
+            _restartPanel.gameObject.SetActive(false);
         }
 
 
