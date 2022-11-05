@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Dying;
 using UnityEngine;
 
 namespace Player.AnimationRelated
@@ -18,7 +19,10 @@ namespace Player.AnimationRelated
         private int _pushID;
         private int _pullID;
         private int _pushPullSpeed;
-
+        
+        //deaths
+        private int _fallID;
+        private int _drawID;
         private void Awake()
         {
             AssignAnimationIDs();
@@ -34,6 +38,7 @@ namespace Player.AnimationRelated
             _pushID = Animator.StringToHash("Pushing");
             _pullID = Animator.StringToHash("Pulling");
             _pushPullSpeed = Animator.StringToHash("PushPullSpeed");
+            _fallID = Animator.StringToHash("FallingDown");
         }
 
         public void SetGrounded(bool grounded)
@@ -104,6 +109,14 @@ namespace Player.AnimationRelated
         private void PushAnimPlayTest()
         {
             _animator.SetBool(_pushID,true);
+        }
+
+        public void PlayDeath(DeathType deathType)
+        {
+            if (deathType == DeathType.Fall)
+            {
+                _animator.SetBool(_fallID, true);
+            }
         }
     }
 }

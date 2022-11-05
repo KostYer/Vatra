@@ -49,7 +49,7 @@ namespace Player
         {
             var startPos = transform.position;
             var desiredPos = startPos + new Vector3(0f, yOffset, 0f);
-            float time = 0;
+            var time = 0f;
 
             var horOffset = _edgeMovement.x;
             var currentlyFacing = _groundChecker.GetCurrentlyFacing();
@@ -101,11 +101,11 @@ namespace Player
 
         private Vector3 GetEdge(Vector3 verticalHit)
         {
-            Vector3 result = Vector3.zero;
+            var result = Vector3.zero;
             var faceDir = _groundChecker.GetCurrentlyFacing();
-            float rayOffsetx = _detectionOffset.x * faceDir;
-            float rayOffsety = _detectionOffset.y;
-            Vector3 origin = new Vector3(verticalHit.x + rayOffsetx, verticalHit.y + rayOffsety, verticalHit.z);
+            var rayOffsetx = _detectionOffset.x * faceDir;
+            var rayOffsety = _detectionOffset.y;
+            var origin = new Vector3(verticalHit.x + rayOffsetx, verticalHit.y + rayOffsety, verticalHit.z);
             if (Physics.Raycast(origin, Vector3.right * faceDir, out var hit, 5, _layer))
             {
                 result = hit.point;
